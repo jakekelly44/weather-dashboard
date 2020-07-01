@@ -216,4 +216,34 @@ function displayHistory() {
     return (searchHistoryArr = localSearchHistory);
 }
 
+
+
+//local user functions
+
+
+function createHistory() {
+    searchHistoryArr.length = 0;
+    localStorage.setItem('searchHistory', JSON.stringify(searchHistoryArr));
+}
+
+
+function clearHistory() {
+    $('#clear-button').on('click', function() {
+        $('#search-history').empty();
+        $('#search-history-container').hide();
+        localStorage.removeItem('searchHistory');
+        createHistory();
+    });
+}
+
+function clickHistory() {
+    $('#search-history').on('click', 'li', function() {
+        var cityNameHistory = $(this).text();
+        getWeather(cityNameHistory);
+    });
+}
+
+
+//local storage end//
+
 //ENDFunctions//
