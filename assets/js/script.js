@@ -32,6 +32,126 @@ function search() {
 
 // End Search input//
 
+//GET api//
 
+function getWeather(search) {
+    var queryURL = weatherAPI + 'q=' + search + units + APIkey;
+
+    $.ajax({
+        url: queryURL,
+        method: 'GET',
+        statusCode: {
+            404: function() {
+                $('#current-forecast').hide();
+                $('#five-day-forecast-container').hide();
+                $('#error').show();
+            }
+        }
+    }).then(function(response) {
+        $('#error').hide();
+        $('#current-forecast').show();
+        $('#five-day-forecast-container').show();
+
+        var results = response;
+        var name = results.name;
+        var temperature = Math.floor(results.main.temp);
+        var humidity = results.main.humidity;
+        var windSpeed = results.wind.speed;
+        var date = new Date(results.dt * 1000).toLocaleDateString('en-US');
+        var weatherIcon = results.weather[0].icon;
+        var weatherIconURL = getWeatherIcon + weatherIcon + '.png';
+
+        storeHistory(name);
+
+        $('#city-name').text(name + ' (' + date + ') ');
+        $('#weather-image').attr('src', weatherIconURL);
+        $('#temperature').html('<b>Temperature: </b>' + temperature + ' °F');
+        $('#humidity').html('<b>Humidity: </b>' + humidity + '%');
+        $('#wind-speed').html('<b>Wind Speed: </b>' + windSpeed + ' MPH');
+
+        var lat = response.coord.lat;
+        var lon = response.coord.lon;
+        var uviQueryURL = uviAPI + lat + '&lon=' + lon + APIkey;
+
+        $.ajax({
+            url: uviQueryURL,
+            method: 'GET'
+        }).then(function(uviResponse) {
+            var uviResults = uviResponse;
+            var uvi = uviResults.value;
+            $('#uv-index').html(
+                '<b>UV Index: </b>' +
+                '<span class="badge badge-pill badge-light" id="uvi-badge">' +
+                uvi +
+                '</span>'
+            );
+
+            // UV index acceptance colors //
+            if (uvi < 3) {
+                $('#uvi-badge').css('background-color', 'blue');
+            } else if (uvi < 6) {
+                $('#uvi-badge').css('background-color', 'yellow');
+            } else if (uvi < 8) {
+                $('#uvi-badge').css('background-color', 'orange');
+            } else if (uvi < 11) {
+                $('#uvi-badge').css('background-color', 'red');
+            } else {
+                $('#uvi-badge').css('background-color', 'aqua');
+            }
+        });
+
+        var cityName = name;
+        var countryCode = response.sys.country;
+        var forecastQueryURL =
+            forecastAPI + cityName + ',' + countryCode + units + APIkey;
+
+        $.ajax({
+            url: forecastQueryURL,
+            method: 'GET'
+        }).then(function(forecastResponse) {
+            var forecastResults = forecastResponse;
+            var forecastArr = [];
+
+            for (var i = 5; i < 40; i += 8) {
+                var forecastObj = {};
+                var forecastResultsDate = forecastResults.list[i].dt_txt;
+                var forecastDate = new Date(forecastResultsDate).toLocaleDateString(
+                    'en-US'
+                );
+                var forecastTemp = forecastResults.list[i].main.temp;
+                var forecastHumidity = forecastResults.list[i].main.humidity;
+                var forecastIcon = forecastResults.list[i].weather[0].icon;
+
+                forecastObj['list'] = {};
+                forecastObj['list']['date'] = forecastDate;
+                forecastObj['list']['temp'] = forecastTemp;
+                forecastObj['list']['humidity'] = forecastHumidity;
+                forecastObj['list']['icon'] = forecastIcon;
+
+                forecastArr.push(forecastObj);
+            }
+
+            for (var j = 0; j < 5; j++) {
+                var forecastArrDate = forecastArr[j].list.date;
+                var forecastIconURL =
+                    getWeatherIcon + forecastArr[j].list.icon + '.png';
+                var forecastArrTemp = Math.floor(forecastArr[j].list.temp);
+                var forecastArrHumidity = forecastArr[j].list.humidity;
+
+                $('#date-' + (j + 1)).text(forecastArrDate);
+                $('#weather-image-' + (j + 1)).attr('src', forecastIconURL);
+                $('#temp-' + (j + 1)).text(
+                    'Temp: ' + Math.floor(forecastArrTemp) + ' °F'
+                );
+                $('#humidity-' + (j + 1)).text(
+                    'Humidity: ' + forecastArrHumidity + '%'
+                );
+            }
+            $('#result-container').show();
+        });
+    });
+}
+
+//GET api end //
 
 //ENDFunctions//
