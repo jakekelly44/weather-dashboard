@@ -154,4 +154,45 @@ function getWeather(search) {
 
 //GET api end //
 
+
+//local storage//
+
+function storeHistory(citySearchName) {
+    var searchHistoryObj = {};
+
+    if (searchHistoryArr.length === 0) {
+        searchHistoryObj['city'] = citySearchName;
+        searchHistoryArr.push(searchHistoryObj);
+        localStorage.setItem('searchHistory', JSON.stringify(searchHistoryArr));
+    } else {
+        var checkHistory = searchHistoryArr.find(
+            ({ city }) => city === citySearchName
+        );
+
+        if (searchHistoryArr.length < 5) {
+            if (checkHistory === undefined) {
+                searchHistoryObj['city'] = citySearchName;
+                searchHistoryArr.push(searchHistoryObj);
+                localStorage.setItem(
+                    'searchHistory',
+                    JSON.stringify(searchHistoryArr)
+                );
+            }
+        } else {
+            if (checkHistory === undefined) {
+                searchHistoryArr.shift();
+                searchHistoryObj['city'] = citySearchName;
+                searchHistoryArr.push(searchHistoryObj);
+                localStorage.setItem(
+                    'searchHistory',
+                    JSON.stringify(searchHistoryArr)
+                );
+            }
+        }
+    }
+    $('#search-history').empty();
+    displayHistory();
+}
+
+
 //ENDFunctions//
