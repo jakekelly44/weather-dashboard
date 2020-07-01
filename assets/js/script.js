@@ -11,3 +11,27 @@ var getWeatherIcon = 'http://openweathermap.org/img/wn/';
 var searchHistoryArr = [];
 
 //END Declarations //
+
+//Functions//
+
+// Search input trim and val//
+
+function search() {
+    $('#search-button').on('click', function() {
+        citySearch = $('#search-input')
+            .val()
+            .trim();
+
+        if (citySearch === '') {
+            return;
+        }
+        $('#search-input').val('');
+        getWeather(citySearch);
+    });
+}
+
+// End Search input//
+
+
+
+//ENDFunctions//
