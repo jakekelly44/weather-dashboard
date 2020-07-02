@@ -29,7 +29,7 @@ The UV index is color coded. (<3 = blue, 3-5.99 = yellow, 6-7.99 = orange, 8-10.
 ![Proof of Weather Dashboard #1](./assets/doc/weather_dashboard_demo.gif "Proof of Weather Dashboard #1")
 
 ### Still
-![Proof of Weather Dashboard #2](./assets/doc/weather_dashbard_proof_1.png "Proof of Weather Dashboard #2")
+![Proof of Weather Dashboard #2](./assets/doc/weather_dashboard_proof_1.png "Proof of Weather Dashboard #2")
 
 ![Proof of Weather Dashboard #3](./assets/doc/weather_dashbard_proof_2.png "Proof of Weather Dashboard #3")
 
