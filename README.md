@@ -21,7 +21,7 @@ Users can view future conditions for that city and that city is added to the sea
 Users can click on a city in the search history to view the current and future conditions for that city  
 The current weather listing includes: city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index       
 The future weather listing includes: 5 days of weather conditions, the date, an icon representation of weather conditions, the temperature, and the humidity  
-The UV index is color coded. (>3 = blue, 3-5.99 = yellow, 6-7.99 = orange, 8-10.99 = red, >10.99 = aqua)           
+The UV index is color coded. (<3 = blue, 3-5.99 = yellow, 6-7.99 = orange, 8-10.99 = red, >10.99 = aqua)           
 
 ## Screenshots
 
