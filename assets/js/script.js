@@ -1,7 +1,7 @@
 //Declarations //
 
 var citySearch;
-var APIkey = '&appid=28870b55a52a06273a2463ffab2469f7';
+var APIkey = '&appid=d697c05a612b33db39d0486de892a280';
 var weatherAPI = 'https://api.openweathermap.org/data/2.5/weather?';
 var uviAPI = 'https://api.openweathermap.org/data/2.5/uvi?lat=';
 var forecastAPI = 'https://api.openweathermap.org/data/2.5/forecast?q=';
